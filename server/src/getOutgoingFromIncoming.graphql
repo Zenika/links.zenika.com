@@ -1,0 +1,5 @@
+query getOutgoingFromIncoming($incoming: String!) {
+  links(where: { incoming_link: { _eq: $incoming } }) {
+    outgoing: outgoing_link
+  }
+}

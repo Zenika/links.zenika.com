@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+
+  postgres:
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  hasura:
+    image: hasura/graphql-engine:v1.2.0-beta.3
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+    ports:
+      - "8080:8080"

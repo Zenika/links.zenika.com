@@ -1,0 +1,19 @@
+{
+  "name": "links-zenika-com-server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon --watch src/*.js --watch .env --exec dotenv node src/server.js"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^3.1.0",
+    "eslint": "^6.8.0",
+    "nodemon": "^2.0.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "node-fetch": "^2.6.0"
+  }
+}

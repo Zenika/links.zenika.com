@@ -1,0 +1,10 @@
+/hasura/node_modules/
+
+/server/node_modules/
+/server/public
+/server/.env
+
+/web/node_modules/
+/web/dist
+/web/.cache
+/web/.env
