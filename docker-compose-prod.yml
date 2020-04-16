@@ -14,6 +14,8 @@ services:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
     ports:
       - "8085:8080"
+    depends_on:
+      - postgres
 
   app:
     build:
