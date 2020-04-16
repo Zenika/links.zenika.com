@@ -1,0 +1,15 @@
+{
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": { "jsx": true }
+  },
+  "env": { "browser": true },
+  "globals": {
+    "process": false
+  },
+  "rules": {
+    "no-unused-vars": "warn"
+  }
+}
