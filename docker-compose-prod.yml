@@ -26,6 +26,6 @@ services:
       args:
         HASURA_ENDPOINT: http://localhost:8085
     environment:
-      HASURA_ENDPOINT: http://hasura:8080/v1/graphql
+      HASURA_GRAPHQL_ENDPOINT: http://hasura:8080/v1/graphql
     ports:
       - "3005:3000"

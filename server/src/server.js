@@ -6,8 +6,8 @@ const serveSpa = require("./serve-spa");
 
 const port = process.env.PORT || 3000;
 
-if (!process.env.HASURA_ENDPOINT) {
-  throw new Error(`HASURA_ENDPOINT is not set`);
+if (!process.env.HASURA_GRAPHQL_ENDPOINT) {
+  throw new Error(`HASURA_GRAPHQL_ENDPOINT is not set`);
 }
 if (!process.env.HASURA_ADMIN_SECRET) {
   throw new Error(`HASURA_ADMIN_SECRET is not set`);
@@ -23,7 +23,7 @@ app.use(
   "/link",
   redirect({
     hasura: {
-      endpoint: process.env.HASURA_ENDPOINT,
+      endpoint: process.env.HASURA_GRAPHQL_ENDPOINT,
       adminSecret: process.env.HASURA_ADMIN_SECRET,
       query: getOutgoingFromIncomingQuery,
     },
