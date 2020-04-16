@@ -2,13 +2,16 @@ const fetch = require("node-fetch");
 const trycatch = require("./trycatch");
 const express = require("express");
 
-module.exports = ({ hasura: { endpoint, query } }) =>
+module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
   express.Router().get(/.*/, async (req, res) => {
     const incoming = req.url;
     console.log(`INFO '${incoming}'`);
     const [response, fetchError] = await trycatch(
       fetch(endpoint, {
         method: "POST",
+        headers: {
+          "x-hasura-admin-secret": adminSecret,
+        },
         body: JSON.stringify({
           query,
           variables: {

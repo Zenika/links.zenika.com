@@ -1,7 +1,6 @@
 version: "3.7"
 
 services:
-
   postgres:
     image: postgres:12
     environment:
@@ -13,6 +12,8 @@ services:
     image: hasura/graphql-engine:v1.2.0-beta.3
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+      HASURA_GRAPHQL_JWT_SECRET: ${HASURA_GRAPHQL_JWT_SECRET}
+      HASURA_GRAPHQL_ADMIN_SECRET: hasura
     ports:
       - "8080:8080"
     depends_on:

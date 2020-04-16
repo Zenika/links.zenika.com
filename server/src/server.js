@@ -9,6 +9,9 @@ const port = process.env.PORT || 3000;
 if (!process.env.HASURA_ENDPOINT) {
   throw new Error(`HASURA_ENDPOINT is not set`);
 }
+if (!process.env.HASURA_ADMIN_SECRET) {
+  throw new Error(`HASURA_ADMIN_SECRET is not set`);
+}
 
 const getOutgoingFromIncomingQuery = fs
   .readFileSync(path.join(__dirname, "getOutgoingFromIncoming.graphql"))
@@ -21,6 +24,7 @@ app.use(
   redirect({
     hasura: {
       endpoint: process.env.HASURA_ENDPOINT,
+      adminSecret: process.env.HASURA_ADMIN_SECRET,
       query: getOutgoingFromIncomingQuery,
     },
   })
