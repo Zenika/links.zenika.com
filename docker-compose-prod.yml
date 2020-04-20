@@ -1,3 +1,6 @@
+# This compose file emulates the production environment.
+# It is NOT used in production.
+
 version: "3.7"
 
 services:
