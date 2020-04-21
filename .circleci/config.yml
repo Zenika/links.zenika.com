@@ -4,6 +4,11 @@ jobs:
   build:
     docker:
       - image: circleci/node:12
+    environment:
+      AUTH0_DOMAIN: zenika.eu.auth0.com
+      AUTH0_CLIENT_ID: yy1vRFMNAM2mOYb60JnQa5VB0SMW12n3
+      AUTH0_AUDIENCE: https://hasura.links.zenika.com/
+      HASURA_ENDPOINT: https://hasura.links.zenika.com
     steps:
       - checkout
       - run:
