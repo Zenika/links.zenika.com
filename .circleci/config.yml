@@ -106,7 +106,7 @@ workflows:
             - build
           filters:
             branches:
-              only: feat/CI
+              only: master
           clever-app-id: app_8564d3e3-0694-4b87-a6e7-0000a633229b
           hasura-clever-app-id: app_6da7f582-6eda-4836-b716-fcaa8ddce036
           hasura-endpoint: https://hasura.links.zenika.com
