@@ -14,7 +14,7 @@ jobs:
           working_directory: web
       - persist_to_workspace:
           root: ./
-          paths: [web/build/]
+          paths: [web/dist/]
       - run:
           command: npm ci
           working_directory: server
