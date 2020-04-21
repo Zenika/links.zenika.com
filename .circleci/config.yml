@@ -1,0 +1,109 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run:
+          command: npm ci
+          working_directory: web
+      - run:
+          command: npm run build
+          working_directory: web
+      - persist_to_workspace:
+          root: ./
+          paths: [web/build/]
+      - run:
+          command: npm ci
+          working_directory: server
+      - persist_to_workspace:
+          root: ./
+          paths: [server/]
+  build-back:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+  deploy:
+    parameters:
+      clever-app-id:
+        type: string
+      hasura-clever-app-id:
+        type: string
+      deploy-dir:
+        type: string
+        default: ../deploy
+      hasura-deploy-dir:
+        type: string
+        default: ../hasura
+      hasura-endpoint:
+        type: string
+      hasura-admin-secret:
+        type: env_var_name
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run:
+          name: Package Hasura
+          command: |
+            mkdir --parents << parameters.hasura-deploy-dir >>
+            cp hasura/Dockerfile << parameters.hasura-deploy-dir >>/
+      - run:
+          name: Deploy Hasura
+          command: |
+            git config --global user.email "dsi@zenika.com"
+            git config --global user.name "Zenika"
+            git init
+            git add .
+            git commit -m "deploy!"
+            sudo npm install --global clever-tools
+            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
+            clever link << parameters.hasura-clever-app-id >>
+            clever deploy --force
+          working_directory: << parameters.hasura-deploy-dir >>
+      - run:
+          name: Apply migrations
+          command: |
+            npx --package hasura-cli@1.2.0-beta.3 hasura migrate apply --endpoint << parameters.hasura-endpoint >> --admin-secret ${<< parameters.hasura-admin-secret >>}
+          working_directory: hasura
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Package
+          command: |
+            mkdir --parents << parameters.deploy-dir >>/public
+            cp --recursive server/* << parameters.deploy-dir >>/
+            cp --recursive web/build/* << parameters.deploy-dir >>/public/
+      - run:
+          name: Deploy
+          command: |
+            git config --global user.email "dsi@zenika.com"
+            git config --global user.name "Zenika"
+            git init
+            git add .
+            git commit -m "deploy!"
+            sudo npm install --global clever-tools
+            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
+            clever link << parameters.clever-app-id >>
+            clever deploy --force
+          working_directory: << parameters.deploy-dir >>
+
+workflows:
+  build:
+    jobs:
+      - build
+      - deploy:
+          name: deploy-prod
+          requires:
+            - build
+          filters:
+            branches:
+              only: feat/CI
+          clever-app-id: app_8564d3e3-0694-4b87-a6e7-0000a633229b
+          hasura-clever-app-id: app_6da7f582-6eda-4836-b716-fcaa8ddce036
+          hasura-endpoint: https://hasura.links.zenika.com
+          hasura-admin-secret: HASURA_ADMIN_SECRET
+          context: clever-cloud2-zenika-dev
