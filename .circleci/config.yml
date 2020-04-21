@@ -76,7 +76,7 @@ jobs:
           command: |
             mkdir --parents << parameters.deploy-dir >>/public
             cp --recursive server/* << parameters.deploy-dir >>/
-            cp --recursive web/build/* << parameters.deploy-dir >>/public/
+            cp --recursive web/dist/* << parameters.deploy-dir >>/public/
       - run:
           name: Deploy
           command: |
