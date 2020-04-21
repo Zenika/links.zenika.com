@@ -20,17 +20,6 @@ jobs:
       - persist_to_workspace:
           root: ./
           paths: [web/dist/]
-      - run:
-          command: npm ci
-          working_directory: server
-      - persist_to_workspace:
-          root: ./
-          paths: [server/]
-  build-back:
-    docker:
-      - image: circleci/node:12
-    steps:
-      - checkout
   deploy:
     parameters:
       clever-app-id:
@@ -70,9 +59,12 @@ jobs:
             clever deploy --force
           working_directory: << parameters.hasura-deploy-dir >>
       - run:
+          command: npm ci
+          working_directory: hasura
+      - run:
           name: Apply migrations
           command: |
-            npx --package hasura-cli@1.2.0-beta.3 hasura migrate apply --endpoint << parameters.hasura-endpoint >> --admin-secret ${<< parameters.hasura-admin-secret >>}
+            hasura migrate apply --endpoint << parameters.hasura-endpoint >> --admin-secret ${<< parameters.hasura-admin-secret >>}
           working_directory: hasura
       - attach_workspace:
           at: ./
@@ -106,7 +98,7 @@ workflows:
             - build
           filters:
             branches:
-              only: master
+              only: feat/CI
           clever-app-id: app_8564d3e3-0694-4b87-a6e7-0000a633229b
           hasura-clever-app-id: app_6da7f582-6eda-4836-b716-fcaa8ddce036
           hasura-endpoint: https://hasura.links.zenika.com
