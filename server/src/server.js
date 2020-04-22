@@ -21,7 +21,7 @@ const getOutgoingFromIncomingQuery = fs
 
 const app = express();
 
-app.use(redirectSsl());
+app.use(redirectSsl);
 
 app.use(helmet());
 
