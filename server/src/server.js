@@ -4,7 +4,7 @@ const express = require("express");
 const redirect = require("./redirect");
 const serveSpa = require("./serve-spa");
 const helmet = require("helmet");
-const redirect_ssl = require("redirect-ssl");
+const redirectSsl = require("redirect-ssl");
 
 const port = process.env.PORT || 3000;
 
@@ -21,10 +21,8 @@ const getOutgoingFromIncomingQuery = fs
 
 const app = express();
 
-// Redirect from http to https
-app.use(redirect_ssl());
+app.use(redirectSsl());
 
-// Protecting app with helmet
 app.use(helmet());
 
 app.use(
