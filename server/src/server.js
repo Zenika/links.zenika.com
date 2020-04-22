@@ -3,8 +3,8 @@ const path = require("path");
 const express = require("express");
 const redirect = require("./redirect");
 const serveSpa = require("./serve-spa");
-const hsts = require("hsts");
-const express_enforces_ssl = require("express-enforces-ssl");
+const helmet = require("helmet");
+const redirect_ssl = require("redirect-ssl");
 
 const port = process.env.PORT || 3000;
 
@@ -22,15 +22,10 @@ const getOutgoingFromIncomingQuery = fs
 const app = express();
 
 // Redirect from http to https
-app.use(express_enforces_ssl());
+app.use(redirect_ssl());
 
-// Force browser to stick to https for 60 days
-const sixtyDaysInSeconds = 5184000;
-app.use(
-  hsts({
-    maxAge: sixtyDaysInSeconds,
-  })
-);
+// Protecting app with helmet
+app.use(helmet());
 
 app.use(
   "/link",
