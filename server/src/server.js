@@ -3,6 +3,8 @@ const path = require("path");
 const express = require("express");
 const redirect = require("./redirect");
 const serveSpa = require("./serve-spa");
+const helmet = require("helmet");
+const redirectSsl = require("redirect-ssl");
 
 const port = process.env.PORT || 3000;
 
@@ -18,6 +20,10 @@ const getOutgoingFromIncomingQuery = fs
   .toString();
 
 const app = express();
+
+app.use(redirectSsl);
+
+app.use(helmet());
 
 app.use(
   "/link",
