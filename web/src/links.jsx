@@ -10,6 +10,7 @@ import {
   EditButton,
   TextInput,
   required,
+  regex
 } from "react-admin";
 
 if (!process.env.ABSOLUTE_LINK_PREFIX) {
@@ -37,7 +38,7 @@ export const PostEdit = (props) => (
     <SimpleForm>
       <TextInput disabled source="id" fullWidth/>
       <TextInput source="incoming_link" label="Preview"  format={toAbsoluteIncomingLink} disabled fullWidth />
-      <TextInput source="incoming_link" label="Generated link" validate={[required()]} fullWidth/>
+      <TextInput source="incoming_link" label="Generated link" validate={[required(), validateRelativeUrl]} fullWidth/>
       <TextInput source="outgoing_link" label="Destination" validate={[required()]} fullWidth/>
     </SimpleForm>
   </Edit>
@@ -47,7 +48,7 @@ export const PostCreate = (props) => (
   <Create title="Create a Post" {...props}>
     <SimpleForm>
       <TextInput source="incoming_link" label="Preview"  format={toAbsoluteIncomingLink} disabled fullWidth />
-      <TextInput source="incoming_link" label="Generated link" validate={[required()]} fullWidth/>
+      <TextInput source="incoming_link" label="Generated link" validate={[required(), validateRelativeUrl]} fullWidth/>
       <TextInput source="outgoing_link" label="Destination" validate={[required()]} fullWidth/>
     </SimpleForm>
   </Create>
@@ -57,3 +58,5 @@ export const PostCreate = (props) => (
 function toAbsoluteIncomingLink(relativeIncomingLink) {
   return relativeIncomingLink ? absoluteLinkPrefix + relativeIncomingLink : ''
 }
+
+const validateRelativeUrl = regex(/^\/[-\w]+/, 'The relative link must start with a "/" character!');
