@@ -38,7 +38,7 @@ export const PostEdit = (props) => (
     <SimpleForm>
       <TextInput disabled source="id" fullWidth/>
       <TextInput source="incoming_link" label="Preview"  format={toAbsoluteIncomingLink} disabled fullWidth />
-      <TextInput source="incoming_link" label="Generated link" validate={[required(), validateRelativeUrl]} fullWidth/>
+      <TextInput source="incoming_link" label="Generated link" validate={[required(), urlStartsWithSlash, urlContainsValidCharacters]} fullWidth/>
       <TextInput source="outgoing_link" label="Destination" validate={[required()]} fullWidth/>
     </SimpleForm>
   </Edit>
@@ -48,7 +48,7 @@ export const PostCreate = (props) => (
   <Create title="Create a Post" {...props}>
     <SimpleForm>
       <TextInput source="incoming_link" label="Preview"  format={toAbsoluteIncomingLink} disabled fullWidth />
-      <TextInput source="incoming_link" label="Generated link" validate={[required(), validateRelativeUrl]} fullWidth/>
+      <TextInput source="incoming_link" label="Generated link" validate={[required(), urlStartsWithSlash, urlContainsValidCharacters]} fullWidth/>
       <TextInput source="outgoing_link" label="Destination" validate={[required()]} fullWidth/>
     </SimpleForm>
   </Create>
@@ -59,4 +59,5 @@ function toAbsoluteIncomingLink(relativeIncomingLink) {
   return relativeIncomingLink ? absoluteLinkPrefix + relativeIncomingLink : ''
 }
 
-const validateRelativeUrl = regex(/^\/[-\w]+/, 'The relative link must start with a "/" character!');
+const urlStartsWithSlash = regex(/^\//, 'The relative link must start with a "/" character!');
+const urlContainsValidCharacters = regex(/^.[-\w\/]+$/, 'The relative link can only contain letters, numbers, "_", "/" and "-"!');
