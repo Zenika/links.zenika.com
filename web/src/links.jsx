@@ -103,6 +103,6 @@ const urlStartsWithSlash = regex(
   'The relative link must start with a "/" character!'
 );
 const urlContainsValidCharacters = regex(
-  /^.[-\w\/]+$/,
+  /^.[-\w/]+$/,
   'The relative link can only contain letters, numbers, "_", "/" and "-"!'
 );
