@@ -27,7 +27,7 @@ jobs:
           command: npm run lint
           working_directory: server
       - run:
-          command: npm run check
+          command: npm run prettier:check
           working_directory: server
   build:
     docker:
