@@ -12,6 +12,9 @@ jobs:
       - run:
           command: npm run lint
           working_directory: web
+      - run:
+          command: npm run prettier:check
+          working_directory: web
   server-checks:
     docker:
       - image: circleci/node:12
@@ -22,6 +25,9 @@ jobs:
           working_directory: server
       - run:
           command: npm run lint
+          working_directory: server
+      - run:
+          command: npm run check
           working_directory: server
   build:
     docker:
@@ -114,6 +120,8 @@ jobs:
 workflows:
   build:
     jobs:
+      - web-checks
+      - server-checks
       - build
       - deploy:
           name: deploy-prod
