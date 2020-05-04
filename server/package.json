@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon --watch src/*.js --watch .env --exec dotenv node src/server.js"
+    "dev": "nodemon --watch src/*.js --watch .env --exec dotenv node src/server.js",
+    "lint": "eslint src/**/*.js"
   },
   "devDependencies": {
     "dotenv-cli": "^3.1.0",
