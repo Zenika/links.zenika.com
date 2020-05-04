@@ -1,6 +1,28 @@
 version: 2.1
 
 jobs:
+  web-checks:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run:
+          command: npm ci
+          working_directory: web
+      - run:
+          command: npm run lint
+          working_directory: web
+  server-checks:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run:
+          command: npm ci
+          working_directory: server
+      - run:
+          command: npm run lint
+          working_directory: server
   build:
     docker:
       - image: circleci/node:12
