@@ -6,6 +6,7 @@
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html",
     "lint": "eslint src/**/*.{js,jsx}",
+    "lint:strict": "npm run lint -- --max-warnings=0",
     "prettier": "prettier *.json src/**/*.{js,jsx,json}",
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write"

@@ -10,7 +10,7 @@ jobs:
           command: npm ci
           working_directory: web
       - run:
-          command: npm run lint
+          command: npm run lint:strict
           working_directory: web
       - run:
           command: npm run prettier:check
@@ -24,7 +24,7 @@ jobs:
           command: npm ci
           working_directory: server
       - run:
-          command: npm run lint
+          command: npm run lint:strict
           working_directory: server
       - run:
           command: npm run prettier:check

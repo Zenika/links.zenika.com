@@ -6,6 +6,7 @@
     "start": "node src/server.js",
     "dev": "nodemon --watch src/*.js --watch .env --exec dotenv node src/server.js",
     "lint": "eslint src/**/*.js",
+    "lint:strict": "npm run lint -- --max-warnings=0",
     "prettier": "prettier *.json src/**/*.{js,json,graphql}",
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write"
