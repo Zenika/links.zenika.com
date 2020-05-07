@@ -69,7 +69,3 @@ module.exports = ({
       }
     }
   });
-
-const postHitOnRedirect = fs
-  .readFileSync(path.join(__dirname, "postHitOnRedirect.graphql"))
-  .toString();
