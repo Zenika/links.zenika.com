@@ -3,10 +3,10 @@ const trycatch = require("./trycatch");
 const express = require("express");
 const uaParser = require("ua-parser-js");
 const storeHit = require("./storeHit");
-const fs = require("fs");
-const path = require("path");
 
-module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
+module.exports = ({
+  hasura: { endpoint, adminSecret, queryRedirect, queryStoreHit },
+}) =>
   express.Router().get(/.*/, async (req, res) => {
     const incoming = req.url;
     const userAgentObj = uaParser(req.headers["user-agent"]);
@@ -18,7 +18,7 @@ module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
           "x-hasura-admin-secret": adminSecret,
         },
         body: JSON.stringify({
-          query,
+          query: queryRedirect,
           variables: {
             incoming,
           },
@@ -59,7 +59,7 @@ module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
           hasura: {
             endpoint: endpoint,
             adminSecret: adminSecret,
-            query: postHitOnRedirect,
+            queryStoreHit,
           },
           incoming,
           outgoing,
@@ -69,7 +69,3 @@ module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
       }
     }
   });
-
-const postHitOnRedirect = fs
-  .readFileSync(path.join(__dirname, "postHitOnRedirect.graphql"))
-  .toString();

@@ -2,15 +2,14 @@ const trycatch = require("./trycatch");
 const fetch = require("node-fetch");
 
 module.exports = async ({
-  hasura: { endpoint, adminSecret, query },
+  hasura: { endpoint, adminSecret, queryStoreHit },
   incoming,
   outgoing,
   userAgentObj,
 }) => {
   const userAgent = userAgentObj.ua;
   const browser = userAgentObj.browser.name;
-  const deviceType =
-    userAgentObj.device.type === undefined ? "Desktop" : userAgent.device.type;
+  const deviceType = userAgentObj.device.type || "desktop";
   const [response, fetchError] = await trycatch(
     fetch(endpoint, {
       method: "POST",
@@ -18,7 +17,7 @@ module.exports = async ({
         "x-hasura-admin-secret": adminSecret,
       },
       body: JSON.stringify({
-        query,
+        query: queryStoreHit,
         variables: {
           incoming,
           outgoing,
