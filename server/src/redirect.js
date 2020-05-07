@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 const trycatch = require("./trycatch");
 const express = require("express");
-const parser = require("ua-parser-js");
+const uaParser = require("ua-parser-js");
 const storeHit = require("./storeHit");
 const fs = require("fs");
 const path = require("path");
@@ -9,7 +9,7 @@ const path = require("path");
 module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
   express.Router().get(/.*/, async (req, res) => {
     const incoming = req.url;
-    const userAgentObj = parser(req.headers["user-agent"]);
+    const userAgentObj = uaParser(req.headers["user-agent"]);
     console.log(`INFO '${incoming}'`);
     const [response, fetchError] = await trycatch(
       fetch(endpoint, {

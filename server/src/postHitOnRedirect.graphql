@@ -16,12 +16,6 @@ mutation postHitOnRedirect(
       }
     ]
   ) {
-    returning {
-      incoming_link
-      outgoing_link
-      user_agent
-      device_type
-      browser
-    }
+    affected_rows
   }
 }

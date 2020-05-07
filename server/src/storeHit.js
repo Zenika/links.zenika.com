@@ -39,7 +39,7 @@ module.exports = async ({
       `ERROR '${incoming}' hasura responded with status code ${response.status} when storring hit`
     );
   } else {
-    const [{ data, errors }, jsonError] = await trycatch(response.json());
+    const [{ errors }, jsonError] = await trycatch(response.json());
     if (jsonError) {
       console.error(
         `ERROR '${incoming}' json parse error when storing hit`,
@@ -51,28 +51,6 @@ module.exports = async ({
           errors
         )}`
       );
-    } else if (
-      !data ||
-      !data.insert_hits ||
-      !data.insert_hits.returning ||
-      data.insert_hits.returning.length < 1
-    ) {
-      console.error(
-        `ERROR '${incoming}' inconsistent graphql response when storing hit`
-      );
-    } else if (
-      !data.insert_hits.returning[0] ||
-      !data.insert_hits.returning[0].incoming_link ||
-      !data.insert_hits.returning[0].outgoing_link ||
-      !data.insert_hits.returning[0].user_agent ||
-      !data.insert_hits.returning[0].device_type ||
-      !data.insert_hits.returning[0].browser
-    ) {
-      console.error(
-        `ERROR '${incoming}' inconsistent graphql response when storing hit`
-      );
-    } else {
-      console.log(`INFO stored hit from '${incoming}' to '${outgoing}'`);
     }
   }
 };
