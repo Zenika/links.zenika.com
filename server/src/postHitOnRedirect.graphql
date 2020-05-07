@@ -1,13 +1,21 @@
-mutation postHitOnRedirect($incoming: String!, $outgoing: String!, $userAgent: String!, $deviceType: String!, $browser: String!) {
-  insert_hits(objects: [
-    {
-      incoming_link: $incoming,
-      outgoing_link: $outgoing,
-      user_agent: $userAgent,
-      device_type: $deviceType,
-      browser: $browser
-    }
-  ]) {
+mutation postHitOnRedirect(
+  $incoming: String!
+  $outgoing: String!
+  $userAgent: String!
+  $deviceType: String!
+  $browser: String!
+) {
+  insert_hits(
+    objects: [
+      {
+        incoming_link: $incoming
+        outgoing_link: $outgoing
+        user_agent: $userAgent
+        device_type: $deviceType
+        browser: $browser
+      }
+    ]
+  ) {
     returning {
       incoming_link
       outgoing_link

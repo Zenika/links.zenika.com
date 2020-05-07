@@ -63,7 +63,7 @@ module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
           },
           incoming,
           outgoing,
-          userAgentObj
+          userAgentObj,
         });
         res.redirect(outgoing);
       }
