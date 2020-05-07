@@ -1,10 +1,15 @@
 const fetch = require("node-fetch");
 const trycatch = require("./trycatch");
 const express = require("express");
+const parser = require("ua-parser-js");
+const storeHit = require("./storeHit");
+const fs = require("fs");
+const path = require("path");
 
 module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
   express.Router().get(/.*/, async (req, res) => {
     const incoming = req.url;
+    const userAgentObj = parser(req.headers["user-agent"]);
     console.log(`INFO '${incoming}'`);
     const [response, fetchError] = await trycatch(
       fetch(endpoint, {
@@ -50,7 +55,21 @@ module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
       } else {
         const outgoing = data.links[0].outgoing;
         console.info(`INFO found '${outgoing}'`);
+        storeHit({
+          hasura: {
+            endpoint: endpoint,
+            adminSecret: adminSecret,
+            query: postHitOnRedirect,
+          },
+          incoming,
+          outgoing,
+          userAgentObj
+        });
         res.redirect(outgoing);
       }
     }
   });
+
+const postHitOnRedirect = fs
+  .readFileSync(path.join(__dirname, "postHitOnRedirect.graphql"))
+  .toString();
