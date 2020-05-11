@@ -54,6 +54,8 @@ const App = () => {
         create={PostCreate}
         show={PostShow}
       />
+      <Resource name="hits_by_incoming_link" />
+      <Resource name="hits_by_outgoing_link" />
     </Admin>
   );
 };
