@@ -1,10 +1,15 @@
 const fetch = require("node-fetch");
 const trycatch = require("./trycatch");
 const express = require("express");
+const uaParser = require("ua-parser-js");
+const storeHit = require("./storeHit");
 
-module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
+module.exports = ({
+  hasura: { endpoint, adminSecret, queryRedirect, queryStoreHit },
+}) =>
   express.Router().get(/.*/, async (req, res) => {
     const incoming = req.url;
+    const userAgentObj = uaParser(req.headers["user-agent"]);
     console.log(`INFO '${incoming}'`);
     const [response, fetchError] = await trycatch(
       fetch(endpoint, {
@@ -13,7 +18,7 @@ module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
           "x-hasura-admin-secret": adminSecret,
         },
         body: JSON.stringify({
-          query,
+          query: queryRedirect,
           variables: {
             incoming,
           },
@@ -50,6 +55,16 @@ module.exports = ({ hasura: { endpoint, adminSecret, query } }) =>
       } else {
         const outgoing = data.links[0].outgoing;
         console.info(`INFO found '${outgoing}'`);
+        storeHit({
+          hasura: {
+            endpoint: endpoint,
+            adminSecret: adminSecret,
+            queryStoreHit,
+          },
+          incoming,
+          outgoing,
+          userAgentObj,
+        });
         res.redirect(outgoing);
       }
     }

@@ -19,6 +19,10 @@ const getOutgoingFromIncomingQuery = fs
   .readFileSync(path.join(__dirname, "getOutgoingFromIncoming.graphql"))
   .toString();
 
+const postHitOnRedirect = fs
+  .readFileSync(path.join(__dirname, "postHitOnRedirect.graphql"))
+  .toString();
+
 const app = express();
 
 app.use(redirectSsl);
@@ -31,7 +35,8 @@ app.use(
     hasura: {
       endpoint: process.env.HASURA_GRAPHQL_ENDPOINT,
       adminSecret: process.env.HASURA_ADMIN_SECRET,
-      query: getOutgoingFromIncomingQuery,
+      queryRedirect: getOutgoingFromIncomingQuery,
+      queryStoreHit: postHitOnRedirect,
     },
   })
 );
