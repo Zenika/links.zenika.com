@@ -1,0 +1,10 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: "CREATE OR REPLACE VIEW \"public\".\"hits_by_incoming_link\" AS \n SELECT
+      hits.incoming_link,\n    count(*) AS hit_count\n   FROM hits\n  GROUP BY hits.incoming_link;"
+  type: run_sql
+- args:
+    name: hits_by_incoming_link
+    schema: public
+  type: add_existing_table_or_view

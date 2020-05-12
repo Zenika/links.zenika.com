@@ -13,6 +13,13 @@ const httpClient = (auth0) => async (url, options = {}) => {
   return fetchUtils.fetchJson(url, options);
 };
 
+const config = {
+  primaryKey: {
+    hits_by_incoming_link: "incoming_link",
+    hits_by_outgoing_link: "outgoing_link",
+  },
+};
+
 const App = () => {
   const auth0 = useAuth0();
   if (auth0.loading !== false) {
@@ -36,7 +43,8 @@ const App = () => {
     <Admin
       dataProvider={hasuraDataProvider(
         process.env.HASURA_ENDPOINT,
-        httpClient(auth0)
+        httpClient(auth0),
+        config
       )}
       authProvider={{
         async login() {},
@@ -54,6 +62,8 @@ const App = () => {
         create={PostCreate}
         show={PostShow}
       />
+      <Resource name="hits_by_incoming_link" />
+      <Resource name="hits_by_outgoing_link" />
     </Admin>
   );
 };

@@ -1,0 +1,14 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - hit_count
+      - outgoing_link
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: world
+    table:
+      name: hits_by_outgoing_link
+      schema: public
+  type: create_select_permission

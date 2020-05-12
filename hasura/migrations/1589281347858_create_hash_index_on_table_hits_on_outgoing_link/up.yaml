@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE INDEX outgoing_link_index on hits USING HASH (outgoing_link);
+  type: run_sql
