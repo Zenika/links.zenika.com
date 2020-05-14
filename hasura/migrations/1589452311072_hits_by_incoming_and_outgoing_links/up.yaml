@@ -1,0 +1,38 @@
+- args:
+    is_enum: false
+    name: hits_by_incoming_link
+    schema: public
+  type: track_table
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - hit_count
+      - incoming_link
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: world
+    table:
+      name: hits_by_incoming_link
+      schema: public
+  type: create_select_permission
+- args:
+    is_enum: false
+    name: hits_by_outgoing_link
+    schema: public
+  type: track_table
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - hit_count
+      - outgoing_link
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: world
+    table:
+      name: hits_by_outgoing_link
+      schema: public
+  type: create_select_permission

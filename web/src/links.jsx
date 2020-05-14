@@ -6,6 +6,8 @@ import {
   Create,
   SimpleForm,
   FunctionField,
+  NumberField,
+  ReferenceField,
   TextField,
   EditButton,
   TextInput,
@@ -27,7 +29,23 @@ export const PostList = (props) => (
         label="Generated link"
         render={(record) => toAbsoluteIncomingLink(record.incoming_link)}
       />
+      <ReferenceField
+        label="Click count"
+        source="incoming_link"
+        reference="hits_by_incoming_link"
+        link={false}
+      >
+        <NumberField source="hit_count" />
+      </ReferenceField>
       <TextField source="outgoing_link" label="Destination" />
+      <ReferenceField
+        label="Redirection count"
+        source="outgoing_link"
+        reference="hits_by_outgoing_link"
+        link={false}
+      >
+        <NumberField source="hit_count" />
+      </ReferenceField>
       <EditButton basePath="/links" />
     </Datagrid>
   </List>
