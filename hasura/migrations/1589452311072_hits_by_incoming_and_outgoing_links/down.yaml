@@ -1,6 +1,12 @@
 - args:
     role: world
     table:
+      name: hits_by_outgoing_link
+      schema: public
+  type: drop_select_permission
+- args:
+    role: world
+    table:
       name: hits_by_incoming_link
       schema: public
   type: drop_select_permission

@@ -13,13 +13,6 @@ const httpClient = (auth0) => async (url, options = {}) => {
   return fetchUtils.fetchJson(url, options);
 };
 
-const config = {
-  primaryKey: {
-    hits_by_incoming_link: "incoming_link",
-    hits_by_outgoing_link: "outgoing_link",
-  },
-};
-
 const App = () => {
   const auth0 = useAuth0();
   if (auth0.loading !== false) {
@@ -44,7 +37,12 @@ const App = () => {
       dataProvider={hasuraDataProvider(
         process.env.HASURA_ENDPOINT,
         httpClient(auth0),
-        config
+        {
+          primaryKey: {
+            hits_by_incoming_link: "incoming_link",
+            hits_by_outgoing_link: "outgoing_link",
+          },
+        }
       )}
       authProvider={{
         async login() {},
