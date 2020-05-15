@@ -11,7 +11,7 @@ export function toAbsoluteIncomingLink(relativeIncomingLink) {
     ? absoluteLinkPrefix + relativeIncomingLink
     : "";
   return (
-    <a href={link} target="_blank">
+    <a href={link} target="_blank" rel="noopener noreferrer">
       {link}
     </a>
   );
@@ -19,7 +19,7 @@ export function toAbsoluteIncomingLink(relativeIncomingLink) {
 
 export function toLinkOpeningNewTab(outgoingLink) {
   return (
-    <a href={outgoingLink} target="_blank">
+    <a href={outgoingLink} target="_blank" rel="noopener noreferrer">
       {outgoingLink}
     </a>
   );

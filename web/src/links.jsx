@@ -8,7 +8,6 @@ import {
   FunctionField,
   NumberField,
   ReferenceField,
-  TextField,
   EditButton,
   TextInput,
   required,
