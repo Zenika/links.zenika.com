@@ -10,17 +10,13 @@ export function toAbsoluteIncomingLink(relativeIncomingLink) {
   const link = relativeIncomingLink
     ? absoluteLinkPrefix + relativeIncomingLink
     : "";
+  return toLinkOpeningNewTab(link);
+}
+
+export function toLinkOpeningNewTab(link) {
   return (
     <a href={link} target="_blank" rel="noopener noreferrer">
       {link}
-    </a>
-  );
-}
-
-export function toLinkOpeningNewTab(outgoingLink) {
-  return (
-    <a href={outgoingLink} target="_blank" rel="noopener noreferrer">
-      {outgoingLink}
     </a>
   );
 }
