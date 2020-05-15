@@ -1,11 +1,6 @@
 import React from "react";
 import { List, Datagrid, FunctionField, NumberField } from "react-admin";
-
-if (!process.env.ABSOLUTE_LINK_PREFIX) {
-  throw new Error("ABSOLUTE_LINK_PREFIX is not set");
-}
-
-const absoluteLinkPrefix = process.env.ABSOLUTE_LINK_PREFIX;
+import { toAbsoluteIncomingLink } from "./utils";
 
 export const HitsByIncomingLinkList = (props) => (
   <List {...props}>
@@ -19,7 +14,3 @@ export const HitsByIncomingLinkList = (props) => (
     </Datagrid>
   </List>
 );
-
-function toAbsoluteIncomingLink(relativeIncomingLink) {
-  return relativeIncomingLink ? absoluteLinkPrefix + relativeIncomingLink : "";
-}

@@ -14,12 +14,7 @@ import {
   required,
   regex,
 } from "react-admin";
-
-if (!process.env.ABSOLUTE_LINK_PREFIX) {
-  throw new Error("ABSOLUTE_LINK_PREFIX is not set");
-}
-
-const absoluteLinkPrefix = process.env.ABSOLUTE_LINK_PREFIX;
+import { toAbsoluteIncomingLink } from "./utils";
 
 export const PostList = (props) => (
   <List {...props}>
@@ -111,10 +106,6 @@ export const PostCreate = (props) => (
     </SimpleForm>
   </Create>
 );
-
-function toAbsoluteIncomingLink(relativeIncomingLink) {
-  return relativeIncomingLink ? absoluteLinkPrefix + relativeIncomingLink : "";
-}
 
 const urlStartsWithSlash = regex(
   /^\//,
