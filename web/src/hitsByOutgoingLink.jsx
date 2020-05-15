@@ -1,6 +1,6 @@
 import React from "react";
 import { List, Datagrid, FunctionField, NumberField } from "react-admin";
-import { toLinkOpeningNewTab } from "./utils";
+import { toLinkOpeningNewTab } from "./renderUrl";
 
 export const HitsByOutgoingLinkList = (props) => (
   <List {...props}>

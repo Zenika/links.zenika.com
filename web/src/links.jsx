@@ -13,7 +13,8 @@ import {
   required,
   regex,
 } from "react-admin";
-import { toAbsoluteIncomingLink, toLinkOpeningNewTab } from "./utils";
+import { toAbsoluteIncomingLink } from "./linkFormatting";
+import { toLinkOpeningNewTab } from "./renderUrl";
 
 export const PostList = (props) => (
   <List {...props}>
@@ -21,7 +22,9 @@ export const PostList = (props) => (
       <FunctionField
         source="incoming_link"
         label="Generated link"
-        render={(record) => toAbsoluteIncomingLink(record.incoming_link)}
+        render={(record) =>
+          toLinkOpeningNewTab(toAbsoluteIncomingLink(record.incoming_link))
+        }
       />
       <ReferenceField
         label="Click count"
