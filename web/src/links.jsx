@@ -14,7 +14,7 @@ import {
   required,
   regex,
 } from "react-admin";
-import { toAbsoluteIncomingLink } from "./utils";
+import { toAbsoluteIncomingLink, toLinkOpeningNewTab } from "./utils";
 
 export const PostList = (props) => (
   <List {...props}>
@@ -32,7 +32,11 @@ export const PostList = (props) => (
       >
         <NumberField source="hit_count" />
       </ReferenceField>
-      <TextField source="outgoing_link" label="Destination" />
+      <FunctionField
+        source="outgoing_link"
+        label="Destination"
+        render={(record) => toLinkOpeningNewTab(record.outgoing_link)}
+      />
       <ReferenceField
         label="Redirection count"
         source="outgoing_link"

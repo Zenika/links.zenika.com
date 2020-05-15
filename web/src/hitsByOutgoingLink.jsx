@@ -1,10 +1,15 @@
 import React from "react";
-import { List, Datagrid, TextField, NumberField } from "react-admin";
+import { List, Datagrid, FunctionField, NumberField } from "react-admin";
+import { toLinkOpeningNewTab } from "./utils";
 
 export const HitsByOutgoingLinkList = (props) => (
   <List {...props}>
     <Datagrid>
-      <TextField source="outgoing_link" label="Outgoing Link" />
+      <FunctionField
+        source="outgoing_link"
+        label="Outgoing Link"
+        render={(record) => toLinkOpeningNewTab(record.outgoing_link)}
+      />
       <NumberField source="hit_count" label="Redirection count" />
     </Datagrid>
   </List>
