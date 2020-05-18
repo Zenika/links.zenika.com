@@ -8,18 +8,13 @@ import {
   FunctionField,
   NumberField,
   ReferenceField,
-  TextField,
   EditButton,
   TextInput,
   required,
   regex,
 } from "react-admin";
-
-if (!process.env.ABSOLUTE_LINK_PREFIX) {
-  throw new Error("ABSOLUTE_LINK_PREFIX is not set");
-}
-
-const absoluteLinkPrefix = process.env.ABSOLUTE_LINK_PREFIX;
+import { toAbsoluteIncomingLink } from "./linkFormatting";
+import { toLinkOpeningNewTab } from "./renderUrl";
 
 export const PostList = (props) => (
   <List {...props}>
@@ -27,7 +22,9 @@ export const PostList = (props) => (
       <FunctionField
         source="incoming_link"
         label="Generated link"
-        render={(record) => toAbsoluteIncomingLink(record.incoming_link)}
+        render={(record) =>
+          toLinkOpeningNewTab(toAbsoluteIncomingLink(record.incoming_link))
+        }
       />
       <ReferenceField
         label="Click count"
@@ -37,7 +34,11 @@ export const PostList = (props) => (
       >
         <NumberField source="hit_count" />
       </ReferenceField>
-      <TextField source="outgoing_link" label="Destination" />
+      <FunctionField
+        source="outgoing_link"
+        label="Destination"
+        render={(record) => toLinkOpeningNewTab(record.outgoing_link)}
+      />
       <ReferenceField
         label="Redirection count"
         source="outgoing_link"
@@ -111,10 +112,6 @@ export const PostCreate = (props) => (
     </SimpleForm>
   </Create>
 );
-
-function toAbsoluteIncomingLink(relativeIncomingLink) {
-  return relativeIncomingLink ? absoluteLinkPrefix + relativeIncomingLink : "";
-}
 
 const urlStartsWithSlash = regex(
   /^\//,

@@ -3,6 +3,8 @@ import { Admin, Resource, fetchUtils, Loading } from "react-admin";
 import hasuraDataProvider from "ra-data-hasura";
 import { PostList, PostEdit, PostCreate, PostShow } from "./links";
 import { useAuth0 } from "./auth0";
+import { HitsByIncomingLinkList } from "./hitsByIncomingLink";
+import { HitsByOutgoingLinkList } from "./hitsByOutgoingLink";
 
 const httpClient = (auth0) => async (url, options = {}) => {
   if (!options.headers) {
@@ -60,8 +62,8 @@ const App = () => {
         create={PostCreate}
         show={PostShow}
       />
-      <Resource name="hits_by_incoming_link" />
-      <Resource name="hits_by_outgoing_link" />
+      <Resource name="hits_by_incoming_link" list={HitsByIncomingLinkList} />
+      <Resource name="hits_by_outgoing_link" list={HitsByOutgoingLinkList} />
     </Admin>
   );
 };
