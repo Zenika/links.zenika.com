@@ -89,7 +89,6 @@ jobs:
           working_directory: << parameters.hasura-deploy-dir >>
       - run:
           command: npm ci
-          working_directory: hasura
       - run:
           name: Apply migrations
           command: |
