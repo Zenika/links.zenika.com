@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."links" drop constraint "Regex_constraint_incoming_link";
-  type: run_sql

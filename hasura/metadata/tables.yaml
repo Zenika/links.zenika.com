@@ -1,0 +1,53 @@
+- table:
+    schema: public
+    name: hits
+- table:
+    schema: public
+    name: hits_by_incoming_link
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - hit_count
+      - incoming_link
+      filter: {}
+- table:
+    schema: public
+    name: hits_by_outgoing_link
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - hit_count
+      - outgoing_link
+      filter: {}
+- table:
+    schema: public
+    name: links
+  insert_permissions:
+  - role: world
+    permission:
+      check: {}
+      columns:
+      - incoming_link
+      - outgoing_link
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - incoming_link
+      - outgoing_link
+      - id
+      filter: {}
+  update_permissions:
+  - role: world
+    permission:
+      columns:
+      - incoming_link
+      - outgoing_link
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: world
+    permission:
+      filter: {}
