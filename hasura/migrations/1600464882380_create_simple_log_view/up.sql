@@ -64,7 +64,7 @@ create view audit.latest_updates (entity_id, last_updated_at, last_updated_by_us
 
 create view audit.entity_summaries as (
   select
-    simple_log.entity_id,
+    simple_log.entity_id as id,
     inserts.inserted_at,
     inserts.inserted_by_user_id,
     latest_updates.last_updated_at,

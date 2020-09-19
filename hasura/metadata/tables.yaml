@@ -18,9 +18,27 @@
           name: users_as_last_seen
         column_mapping:
           last_updated_by_user_id: id
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - id
+      - inserted_at
+      - inserted_by_user_id
+      - last_updated_at
+      - last_updated_by_user_id
+      filter: {}
 - table:
     schema: audit
     name: users_as_last_seen
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - id
+      - full_name
+      - email
+      filter: {}
 - table:
     schema: public
     name: hits
@@ -55,7 +73,7 @@
           schema: audit
           name: entity_summaries
         column_mapping:
-          id: entity_id
+          id: id
   insert_permissions:
   - role: world
     permission:
