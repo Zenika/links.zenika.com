@@ -7,6 +7,8 @@ import {
   SimpleForm,
   FunctionField,
   NumberField,
+  TextField,
+  DateField,
   ReferenceField,
   EditButton,
   TextInput,
@@ -47,6 +49,43 @@ export const PostList = (props) => (
       >
         <NumberField source="hit_count" />
       </ReferenceField>
+      <ReferenceField
+        label="Created by"
+        source="id"
+        reference="audit.entity_summaries"
+        link={false}
+      >
+        <ReferenceField
+          source="inserted_by_user_id"
+          reference="audit.users_as_last_seen"
+          link={false}
+        >
+          <TextField source="full_name" />
+        </ReferenceField>
+      </ReferenceField>
+      <ReferenceField
+        label="Last updated by"
+        source="id"
+        reference="audit.entity_summaries"
+        link={false}
+      >
+        <ReferenceField
+          source="last_updated_by_user_id"
+          reference="audit.users_as_last_seen"
+          link={false}
+        >
+          <TextField source="full_name" />
+        </ReferenceField>
+      </ReferenceField>
+      <ReferenceField
+        label="Last updated at"
+        source="id"
+        reference="audit.entity_summaries"
+        link={false}
+      >
+        <DateField source="last_updated_at" showTime={true} />
+      </ReferenceField>
+
       <EditButton basePath="/links" />
     </Datagrid>
   </List>

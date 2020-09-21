@@ -1,4 +1,45 @@
 - table:
+    schema: audit
+    name: entity_summaries
+  object_relationships:
+  - name: inserted_by
+    using:
+      manual_configuration:
+        remote_table:
+          schema: audit
+          name: users_as_last_seen
+        column_mapping:
+          inserted_by_user_id: id
+  - name: last_updated_by
+    using:
+      manual_configuration:
+        remote_table:
+          schema: audit
+          name: users_as_last_seen
+        column_mapping:
+          last_updated_by_user_id: id
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - id
+      - inserted_at
+      - inserted_by_user_id
+      - last_updated_at
+      - last_updated_by_user_id
+      filter: {}
+- table:
+    schema: audit
+    name: users_as_last_seen
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - id
+      - full_name
+      - email
+      filter: {}
+- table:
     schema: public
     name: hits
 - table:
@@ -24,6 +65,15 @@
 - table:
     schema: public
     name: links
+  object_relationships:
+  - name: audit_summary
+    using:
+      manual_configuration:
+        remote_table:
+          schema: audit
+          name: entity_summaries
+        column_mapping:
+          id: id
   insert_permissions:
   - role: world
     permission:

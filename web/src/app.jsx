@@ -64,6 +64,8 @@ const App = () => {
       />
       <Resource name="hits_by_incoming_link" list={HitsByIncomingLinkList} />
       <Resource name="hits_by_outgoing_link" list={HitsByOutgoingLinkList} />
+      <Resource name="audit.entity_summaries" list={null} />
+      <Resource name="audit.users_as_last_seen" list={null} />
     </Admin>
   );
 };
