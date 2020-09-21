@@ -90,10 +90,10 @@ jobs:
       - run:
           command: npm ci
       - run:
-          name: Apply migrations
+          name: Apply migrations and metadata
           command: |
-            npx hasura migrate apply --endpoint << parameters.hasura-endpoint >> --admin-secret ${<< parameters.hasura-admin-secret >>}
-          working_directory: hasura
+            npm run hasura migrate apply -- --endpoint << parameters.hasura-endpoint >> --admin-secret ${<< parameters.hasura-admin-secret >>}
+            npm run hasura metadata apply -- --endpoint << parameters.hasura-endpoint >> --admin-secret ${<< parameters.hasura-admin-secret >>}
       - attach_workspace:
           at: ./
       - run:
