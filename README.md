@@ -6,6 +6,8 @@ Create Zenika-branded links that redirect to anywhere!
 
 ### Run attached services
 
+In `/`, copy `.env.example`to `.env`.
+
 Run `docker-compose up` to start the database and GraphQL API. These are required to run when working on either the server or the ui.
 
 ### Working on the UI
