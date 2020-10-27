@@ -32,11 +32,14 @@ export const LinkList = (props) => {
           source="incoming_link"
           label="Generated link"
           className={classes.link}
-          render={(record) => (
-            <ExternalLink href={toAbsoluteIncomingLink(record.incoming_link)}>
-              ...{record.incoming_link}
-            </ExternalLink>
-          )}
+          render={(record) => {
+            const absoluteLink = toAbsoluteIncomingLink(record.incoming_link);
+            return (
+              <ExternalLink href={absoluteLink} title={absoluteLink}>
+                ...{record.incoming_link}
+              </ExternalLink>
+            );
+          }}
         />
         <ReferenceField
           label="Click count"
@@ -58,7 +61,10 @@ export const LinkList = (props) => {
               console.warn(`Could not parse '${outgoingUrl}' as a URL`);
             }
             return (
-              <ExternalLink href={record.outgoing_link}>
+              <ExternalLink
+                href={record.outgoing_link}
+                title={record.outgoing_link}
+              >
                 {outgoingUrl}
               </ExternalLink>
             );
