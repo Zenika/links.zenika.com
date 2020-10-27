@@ -1,7 +1,7 @@
 import React from "react";
 import { Admin, Resource, fetchUtils, Loading } from "react-admin";
 import hasuraDataProvider from "ra-data-hasura";
-import { PostList, PostEdit, PostCreate, PostShow } from "./links";
+import { LinkList, LinkEdit, LinkCreate } from "./links";
 import { useAuth0 } from "./auth0";
 import { HitsByIncomingLinkList } from "./hitsByIncomingLink";
 import { HitsByOutgoingLinkList } from "./hitsByOutgoingLink";
@@ -57,10 +57,9 @@ const App = () => {
     >
       <Resource
         name="links"
-        list={PostList}
-        edit={PostEdit}
-        create={PostCreate}
-        show={PostShow}
+        list={LinkList}
+        edit={LinkEdit}
+        create={LinkCreate}
       />
       <Resource name="hits_by_incoming_link" list={HitsByIncomingLinkList} />
       <Resource name="hits_by_outgoing_link" list={HitsByOutgoingLinkList} />

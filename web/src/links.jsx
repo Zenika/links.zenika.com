@@ -15,81 +15,105 @@ import {
   required,
   regex,
 } from "react-admin";
-import { toAbsoluteIncomingLink } from "./linkFormatting";
-import { toLinkOpeningNewTab } from "./renderUrl";
+import { toAbsoluteIncomingLink } from "./absoluteIncomingLink";
+import { ExternalLink } from "./ExternalLink";
+import { makeStyles } from "@material-ui/core/styles";
 
-export const LinkList = (props) => (
-  <List {...props}>
-    <Datagrid>
-      <FunctionField
-        source="incoming_link"
-        label="Generated link"
-        render={(record) =>
-          toLinkOpeningNewTab(toAbsoluteIncomingLink(record.incoming_link))
-        }
-      />
-      <ReferenceField
-        label="Click count"
-        source="incoming_link"
-        reference="hits_by_incoming_link"
-        link={false}
-      >
-        <NumberField source="hit_count" />
-      </ReferenceField>
-      <FunctionField
-        source="outgoing_link"
-        label="Destination"
-        render={(record) => toLinkOpeningNewTab(record.outgoing_link)}
-      />
-      <ReferenceField
-        label="Redirection count"
-        source="outgoing_link"
-        reference="hits_by_outgoing_link"
-        link={false}
-      >
-        <NumberField source="hit_count" />
-      </ReferenceField>
-      <ReferenceField
-        label="Created by"
-        source="id"
-        reference="audit.entity_summaries"
-        link={false}
-      >
+const useStyles = makeStyles({
+  link: { wordBreak: "break-word" },
+});
+
+export const LinkList = (props) => {
+  const classes = useStyles();
+  return (
+    <List {...props}>
+      <Datagrid>
+        <FunctionField
+          source="incoming_link"
+          label="Generated link"
+          className={classes.link}
+          render={(record) => (
+            <ExternalLink href={toAbsoluteIncomingLink(record.incoming_link)}>
+              ...{record.incoming_link}
+            </ExternalLink>
+          )}
+        />
         <ReferenceField
-          source="inserted_by_user_id"
-          reference="audit.users_as_last_seen"
+          label="Click count"
+          source="incoming_link"
+          reference="hits_by_incoming_link"
           link={false}
         >
-          <TextField source="full_name" />
+          <NumberField source="hit_count" />
         </ReferenceField>
-      </ReferenceField>
-      <ReferenceField
-        label="Last updated by"
-        source="id"
-        reference="audit.entity_summaries"
-        link={false}
-      >
+        <FunctionField
+          source="outgoing_link"
+          label="Destination"
+          className={classes.link}
+          render={(record) => {
+            let outgoingUrl = record.outgoing_link;
+            try {
+              outgoingUrl = new URL(outgoingUrl).host + "...";
+            } catch (err) {
+              console.warn(`Could not parse '${outgoingUrl}' as a URL`);
+            }
+            return (
+              <ExternalLink href={record.outgoing_link}>
+                {outgoingUrl}
+              </ExternalLink>
+            );
+          }}
+        />
         <ReferenceField
-          source="last_updated_by_user_id"
-          reference="audit.users_as_last_seen"
+          label="Redirection count"
+          source="outgoing_link"
+          reference="hits_by_outgoing_link"
           link={false}
         >
-          <TextField source="full_name" />
+          <NumberField source="hit_count" />
         </ReferenceField>
-      </ReferenceField>
-      <ReferenceField
-        label="Last updated at"
-        source="id"
-        reference="audit.entity_summaries"
-        link={false}
-      >
-        <DateField source="last_updated_at" showTime={true} />
-      </ReferenceField>
+        <ReferenceField
+          label="Created by"
+          source="id"
+          reference="audit.entity_summaries"
+          link={false}
+        >
+          <ReferenceField
+            source="inserted_by_user_id"
+            reference="audit.users_as_last_seen"
+            link={false}
+          >
+            <TextField source="full_name" />
+          </ReferenceField>
+        </ReferenceField>
+        <ReferenceField
+          label="Last updated by"
+          source="id"
+          reference="audit.entity_summaries"
+          link={false}
+        >
+          <ReferenceField
+            source="last_updated_by_user_id"
+            reference="audit.users_as_last_seen"
+            link={false}
+          >
+            <TextField source="full_name" />
+          </ReferenceField>
+        </ReferenceField>
+        <ReferenceField
+          label="Last updated at"
+          source="id"
+          reference="audit.entity_summaries"
+          link={false}
+        >
+          <DateField source="last_updated_at" showTime={true} />
+        </ReferenceField>
 
-      <EditButton basePath="/links" />
-    </Datagrid>
-  </List>
-);
+        <EditButton basePath="/links" />
+      </Datagrid>
+    </List>
+  );
+};
 
 const LinkTitle = ({ record }) => {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { List, Datagrid, FunctionField, NumberField } from "react-admin";
-import { toLinkOpeningNewTab } from "./renderUrl";
+import { ExternalLink } from "./ExternalLink";
 
 export const HitsByOutgoingLinkList = (props) => (
   <List {...props}>
@@ -8,7 +8,11 @@ export const HitsByOutgoingLinkList = (props) => (
       <FunctionField
         source="outgoing_link"
         label="Outgoing Link"
-        render={(record) => toLinkOpeningNewTab(record.outgoing_link)}
+        render={(record) => (
+          <ExternalLink href={record.outgoing_link}>
+            {record.outgoing_link}
+          </ExternalLink>
+        )}
       />
       <NumberField source="hit_count" label="Redirection count" />
     </Datagrid>
