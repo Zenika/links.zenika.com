@@ -18,7 +18,7 @@ import {
 import { toAbsoluteIncomingLink } from "./linkFormatting";
 import { toLinkOpeningNewTab } from "./renderUrl";
 
-export const PostList = (props) => (
+export const LinkList = (props) => (
   <List {...props}>
     <Datagrid>
       <FunctionField
@@ -91,7 +91,7 @@ export const PostList = (props) => (
   </List>
 );
 
-const PostTitle = ({ record }) => {
+const LinkTitle = ({ record }) => {
   return (
     <span>
       Link {record ? `"${toAbsoluteIncomingLink(record.incoming_link)}"` : ""}
@@ -99,8 +99,8 @@ const PostTitle = ({ record }) => {
   );
 };
 
-export const PostEdit = (props) => (
-  <Edit title={<PostTitle record={props.record} />} {...props}>
+export const LinkEdit = (props) => (
+  <Edit title={<LinkTitle record={props.record} />} {...props}>
     <SimpleForm>
       <TextInput disabled source="id" fullWidth />
       <TextInput
@@ -126,8 +126,8 @@ export const PostEdit = (props) => (
   </Edit>
 );
 
-export const PostCreate = (props) => (
-  <Create title="Create a Post" {...props}>
+export const LinkCreate = (props) => (
+  <Create title="Create a Link" {...props}>
     <SimpleForm>
       <TextInput
         source="incoming_link"
