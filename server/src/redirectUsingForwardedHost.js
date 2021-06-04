@@ -2,8 +2,8 @@ const express = require("express");
 
 module.exports = ({ mapping }) =>
   express.Router().get(/.*/, async (req, res) => {
-    console.log(req.headers);
-    const forwardedHost = req.headers["x-forwarded-host"];
+    const forwardedHost =
+      req.headers["x-forwarded-host"] || req.headers["host"];
     if (!forwardedHost || !mapping[forwardedHost]) {
       res.sendStatus(404);
     } else {
