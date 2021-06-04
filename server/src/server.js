@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
+const redirectUsingForwardedHost = require("./redirectUsingForwardedHost");
 const redirect = require("./redirect");
 const serveSpa = require("./serve-spa");
 const helmet = require("helmet");
@@ -28,6 +29,13 @@ const app = express();
 app.use(redirectSsl);
 
 app.use(helmet());
+
+app.use(
+  "/",
+  redirectUsingForwardedHost({
+    mapping: JSON.parse(process.env.FORWARDED_HOST_MAPPING || "{}"),
+  })
+);
 
 app.use(
   "/link",
