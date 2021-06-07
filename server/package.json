@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon --watch src/**/*.js --watch .env --exec node --require dotenv/config src/server.js",
+    "dev": "nodemon --watch src/**/*.js --watch .env --exec node --require dotenv/config --inspect src/server.js",
     "lint": "eslint src/**/*.js",
     "lint:strict": "npm run lint -- --max-warnings=0",
     "prettier": "prettier *.json src/**/*.{js,json,graphql}",
