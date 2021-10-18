@@ -16,12 +16,9 @@ import {
   regex,
 } from "react-admin";
 import { toAbsoluteIncomingLink } from "./absoluteIncomingLink";
-import { ExternalLink } from "./ExternalLink";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles({
-  link: { wordBreak: "break-word" },
-});
+import { IncomingLink } from "./IncomingLink";
+import { OutgoingLink } from "./OutgoingLink";
+import { useStyles } from "./useStyles";
 
 export const LinkList = (props) => {
   const classes = useStyles();
@@ -32,14 +29,7 @@ export const LinkList = (props) => {
           source="incoming_link"
           label="Generated link"
           className={classes.link}
-          render={(record) => {
-            const absoluteLink = toAbsoluteIncomingLink(record.incoming_link);
-            return (
-              <ExternalLink href={absoluteLink} title={absoluteLink}>
-                ...{record.incoming_link}
-              </ExternalLink>
-            );
-          }}
+          render={IncomingLink}
         />
         <ReferenceField
           label="Click count"
@@ -54,22 +44,7 @@ export const LinkList = (props) => {
           source="outgoing_link"
           label="Destination"
           className={classes.link}
-          render={(record) => {
-            let outgoingUrl = record.outgoing_link;
-            try {
-              outgoingUrl = new URL(outgoingUrl).host + "...";
-            } catch (err) {
-              console.warn(`Could not parse '${outgoingUrl}' as a URL`);
-            }
-            return (
-              <ExternalLink
-                href={record.outgoing_link}
-                title={record.outgoing_link}
-              >
-                {outgoingUrl}
-              </ExternalLink>
-            );
-          }}
+          render={OutgoingLink}
         />
         <ReferenceField
           label="Redirection count"

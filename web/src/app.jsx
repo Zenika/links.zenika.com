@@ -5,6 +5,7 @@ import { LinkList, LinkEdit, LinkCreate } from "./links";
 import { useAuth0 } from "./auth0";
 import { HitsByIncomingLinkList } from "./hitsByIncomingLink";
 import { HitsByOutgoingLinkList } from "./hitsByOutgoingLink";
+import { AuditTrailList } from "./auditTrail";
 
 const httpClient = (auth0) => async (url, options = {}) => {
   if (!options.headers) {
@@ -43,6 +44,7 @@ const App = () => {
           primaryKey: {
             hits_by_incoming_link: "incoming_link",
             hits_by_outgoing_link: "outgoing_link",
+            "audit.simple_log": "event_id",
           },
         }
       )}
@@ -63,6 +65,12 @@ const App = () => {
       />
       <Resource name="hits_by_incoming_link" list={HitsByIncomingLinkList} />
       <Resource name="hits_by_outgoing_link" list={HitsByOutgoingLinkList} />
+      <Resource
+        name="audit.simple_log"
+        options={{ label: "Audit Trail " }}
+        list={AuditTrailList}
+      />
+      {/* Don't remove those, they are need for reference fields targeting those entities to work */}
       <Resource name="audit.entity_summaries" list={null} />
       <Resource name="audit.users_as_last_seen" list={null} />
     </Admin>

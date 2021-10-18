@@ -30,6 +30,21 @@
       filter: {}
 - table:
     schema: audit
+    name: simple_log
+  select_permissions:
+  - role: world
+    permission:
+      columns:
+      - action
+      - entity_id
+      - event_id
+      - timestamp
+      - user_email
+      - user_id
+      - user_name
+      filter: {}
+- table:
+    schema: audit
     name: users_as_last_seen
   select_permissions:
   - role: world
