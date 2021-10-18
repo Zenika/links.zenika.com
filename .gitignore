@@ -4,4 +4,4 @@ node_modules/
 /server/public
 
 /web/dist
-/web/.cache
+/web/.parcel-cache
