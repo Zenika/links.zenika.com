@@ -46,6 +46,7 @@ export const LinkList = (props) => {
           source="incoming_link"
           reference="hits_by_incoming_link"
           link={false}
+          sortable={false}
         >
           <NumberField source="hit_count" />
         </ReferenceField>
@@ -75,6 +76,7 @@ export const LinkList = (props) => {
           source="outgoing_link"
           reference="hits_by_outgoing_link"
           link={false}
+          sortable={false}
         >
           <NumberField source="hit_count" />
         </ReferenceField>
@@ -83,6 +85,7 @@ export const LinkList = (props) => {
           source="id"
           reference="audit.entity_summaries"
           link={false}
+          sortable={false}
         >
           <ReferenceField
             source="inserted_by_user_id"
@@ -97,6 +100,7 @@ export const LinkList = (props) => {
           source="id"
           reference="audit.entity_summaries"
           link={false}
+          sortable={false}
         >
           <ReferenceField
             source="last_updated_by_user_id"
@@ -111,6 +115,7 @@ export const LinkList = (props) => {
           source="id"
           reference="audit.entity_summaries"
           link={false}
+          sortable={false}
         >
           <DateField source="last_updated_at" showTime={true} />
         </ReferenceField>
