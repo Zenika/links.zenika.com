@@ -2,11 +2,11 @@ import React from "react";
 import { ExternalLink } from "./ExternalLink";
 import { toAbsoluteIncomingLink } from "./absoluteIncomingLink";
 
-export function IncomingLink(linkRecord) {
-  const absoluteLink = toAbsoluteIncomingLink(linkRecord.incoming_link);
+export function IncomingLink({ incoming_link }) {
+  const absoluteLink = toAbsoluteIncomingLink(incoming_link);
   return (
     <ExternalLink href={absoluteLink} title={absoluteLink}>
-      ...{linkRecord.incoming_link}
+      ...{incoming_link}
     </ExternalLink>
   );
 }
