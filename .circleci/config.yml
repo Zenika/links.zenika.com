@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   web-checks:
     docker:
-      - image: circleci/node:12
+      - image: cimg/node:lts
     steps:
       - checkout
       - run:
@@ -17,7 +17,7 @@ jobs:
           working_directory: web
   server-checks:
     docker:
-      - image: circleci/node:12
+      - image: cimg/node:lts
     steps:
       - checkout
       - run:
@@ -31,7 +31,7 @@ jobs:
           working_directory: server
   build:
     docker:
-      - image: circleci/node:12
+      - image: cimg/node:lts
     environment:
       AUTH0_DOMAIN: zenika.eu.auth0.com
       AUTH0_CLIENT_ID: yy1vRFMNAM2mOYb60JnQa5VB0SMW12n3
@@ -66,7 +66,7 @@ jobs:
       hasura-admin-secret:
         type: env_var_name
     docker:
-      - image: circleci/node:12
+      - image: cimg/node:lts
     steps:
       - checkout
       - run:
