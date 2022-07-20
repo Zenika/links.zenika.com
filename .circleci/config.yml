@@ -6,13 +6,16 @@ orbs:
 commands:
   deploy-to-clever-cloud:
     parameters:
+      step-name:
+        type: string
+        default: Deploy to Clever Cloud
       app-id:
         type: string
       directory:
         type: string
     steps:
       - run:
-          name: << parameters.name >>
+          name: << parameters.step-name >>
           command: |
             git config --global user.email "dsi@zenika.com"
             git config --global user.name "Zenika"
@@ -78,7 +81,7 @@ jobs:
             mkdir --parents << parameters.hasura-deploy-dir >>
             cp hasura/Dockerfile << parameters.hasura-deploy-dir >>/
       - deploy-to-clever-cloud:
-          name: Deploy Hasura
+          step-name: Deploy Hasura
           directory: << parameters.hasura-deploy-dir >>
           app-id: << parameters.hasura-clever-app-id >>
       - node/install-packages
@@ -96,7 +99,7 @@ jobs:
             cp --recursive server/* << parameters.deploy-dir >>/
             cp --recursive web/dist/* << parameters.deploy-dir >>/public/
       - deploy-to-clever-cloud:
-          name: Deploy App
+          step-name: Deploy App
           directory: << parameters.deploy-dir >>
           app-id: << parameters.clever-app-id >>
 
