@@ -1,37 +1,38 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@5.0.2
+
 jobs:
+
   web-checks:
-    docker:
-      - image: cimg/node:lts
+    executor: node/default
     steps:
       - checkout
-      - run:
-          command: npm ci
-          working_directory: web
+      - node/install-packages:
+          app-dir: web
       - run:
           command: npm run lint:strict
           working_directory: web
       - run:
           command: npm run prettier:check
           working_directory: web
+
   server-checks:
-    docker:
-      - image: cimg/node:lts
+    executor: node/default
     steps:
       - checkout
-      - run:
-          command: npm ci
-          working_directory: server
+      - node/install-packages:
+          app-dir: server
       - run:
           command: npm run lint:strict
           working_directory: server
       - run:
           command: npm run prettier:check
           working_directory: server
+
   build:
-    docker:
-      - image: cimg/node:lts
+    executor: node/default
     environment:
       AUTH0_DOMAIN: zenika.eu.auth0.com
       AUTH0_CLIENT_ID: yy1vRFMNAM2mOYb60JnQa5VB0SMW12n3
@@ -40,15 +41,15 @@ jobs:
       ABSOLUTE_LINK_PREFIX: https://links.zenika.com/link
     steps:
       - checkout
-      - run:
-          command: npm ci
-          working_directory: web
+      - node/install-packages:
+          app-dir: web
       - run:
           command: npm run build
           working_directory: web
       - persist_to_workspace:
           root: ./
           paths: [web/dist/]
+
   deploy:
     parameters:
       clever-app-id:
@@ -65,8 +66,7 @@ jobs:
         type: string
       hasura-admin-secret:
         type: env_var_name
-    docker:
-      - image: cimg/node:lts
+    executor: node/default
     steps:
       - checkout
       - run:
@@ -87,8 +87,7 @@ jobs:
             clever link << parameters.hasura-clever-app-id >>
             clever deploy --force
           working_directory: << parameters.hasura-deploy-dir >>
-      - run:
-          command: npm ci
+      - node/install-packages
       - run:
           name: Apply migrations and metadata
           command: |
