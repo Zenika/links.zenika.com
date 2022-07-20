@@ -31,25 +31,6 @@ jobs:
           command: npm run prettier:check
           working_directory: server
 
-  build:
-    executor: node/default
-    environment:
-      AUTH0_DOMAIN: zenika.eu.auth0.com
-      AUTH0_CLIENT_ID: yy1vRFMNAM2mOYb60JnQa5VB0SMW12n3
-      AUTH0_AUDIENCE: https://hasura.links.zenika.com/
-      HASURA_ENDPOINT: https://hasura.links.zenika.com
-      ABSOLUTE_LINK_PREFIX: https://links.zenika.com/link
-    steps:
-      - checkout
-      - node/install-packages:
-          app-dir: web
-      - run:
-          command: npm run build
-          working_directory: web
-      - persist_to_workspace:
-          root: ./
-          paths: [web/dist/]
-
   deploy:
     parameters:
       clever-app-id:
@@ -120,7 +101,13 @@ workflows:
     jobs:
       - web-checks
       - server-checks
-      - build
+      - node/run:
+          app-dir: web
+          npm-run: build
+          post-steps:
+            - persist_to_workspace:
+                root: ./
+                paths: [web/dist/]
       - deploy:
           name: deploy-prod
           requires:
