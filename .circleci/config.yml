@@ -109,6 +109,8 @@ workflows:
             - persist_to_workspace:
                 root: ./
                 paths: [web/dist/]
+            - store_artifacts:
+                path: web/dist
       - deploy:
           name: deploy-prod
           requires:
