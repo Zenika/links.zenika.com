@@ -3,6 +3,31 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
 
+commands:
+  deploy-to-clever-cloud:
+    parameters:
+      name:
+        type: string
+        default: Deploy to Clever Cloud
+      app-id:
+        type: string
+      directory:
+        type: string
+    steps:
+      - run:
+          name: << parameters.name >>
+          command: |
+            git config --global user.email "dsi@zenika.com"
+            git config --global user.name "Zenika"
+            git init
+            git add .
+            git commit -m "deploy!"
+            npm install --global clever-tools
+            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
+            clever link << parameters.app-id >>
+            clever deploy --force
+          working_directory: << parameters.directory >>
+
 jobs:
 
   web-checks:
@@ -55,19 +80,10 @@ jobs:
           command: |
             mkdir --parents << parameters.hasura-deploy-dir >>
             cp hasura/Dockerfile << parameters.hasura-deploy-dir >>/
-      - run:
+      - deploy-to-clever-cloud:
           name: Deploy Hasura
-          command: |
-            git config --global user.email "dsi@zenika.com"
-            git config --global user.name "Zenika"
-            git init
-            git add .
-            git commit -m "deploy!"
-            npm install --global clever-tools
-            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
-            clever link << parameters.hasura-clever-app-id >>
-            clever deploy --force
-          working_directory: << parameters.hasura-deploy-dir >>
+          directory: << parameters.hasura-deploy-dir >>
+          app-id: << parameters.hasura-clever-app-id >>
       - node/install-packages
       - run:
           name: Apply migrations and metadata
@@ -82,19 +98,10 @@ jobs:
             mkdir --parents << parameters.deploy-dir >>/public
             cp --recursive server/* << parameters.deploy-dir >>/
             cp --recursive web/dist/* << parameters.deploy-dir >>/public/
-      - run:
-          name: Deploy
-          command: |
-            git config --global user.email "dsi@zenika.com"
-            git config --global user.name "Zenika"
-            git init
-            git add .
-            git commit -m "deploy!"
-            npm install --global clever-tools
-            clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
-            clever link << parameters.clever-app-id >>
-            clever deploy --force
-          working_directory: << parameters.deploy-dir >>
+      - deploy-to-clever-cloud:
+          name: Deploy App
+          directory: << parameters.deploy-dir >>
+          app-id: << parameters.clever-app-id >>
 
 workflows:
   build:
