@@ -102,6 +102,7 @@ workflows:
       - web-checks
       - server-checks
       - node/run:
+          name: web-build
           app-dir: web
           npm-run: build
           post-steps:
@@ -111,7 +112,7 @@ workflows:
       - deploy:
           name: deploy-prod
           requires:
-            - build
+            - web-build
           filters:
             branches:
               only: main
