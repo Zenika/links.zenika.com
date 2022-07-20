@@ -6,9 +6,6 @@ orbs:
 commands:
   deploy-to-clever-cloud:
     parameters:
-      name:
-        type: string
-        default: Deploy to Clever Cloud
       app-id:
         type: string
       directory:
