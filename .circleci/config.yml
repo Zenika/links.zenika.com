@@ -80,6 +80,8 @@ jobs:
           command: |
             mkdir --parents << parameters.hasura-deploy-dir >>
             cp hasura/Dockerfile << parameters.hasura-deploy-dir >>/
+      - store_artifacts:
+          path: << parameters.hasura-deploy-dir >>
       - deploy-to-clever-cloud:
           step-name: Deploy Hasura
           directory: << parameters.hasura-deploy-dir >>
@@ -98,6 +100,8 @@ jobs:
             mkdir --parents << parameters.deploy-dir >>/public
             cp --recursive server/* << parameters.deploy-dir >>/
             cp --recursive web/dist/* << parameters.deploy-dir >>/public/
+      - store_artifacts:
+          path: << parameters.deploy-dir >>
       - deploy-to-clever-cloud:
           step-name: Deploy App
           directory: << parameters.deploy-dir >>
