@@ -22,7 +22,7 @@ commands:
             git init
             git add .
             git commit -m "deploy!"
-            npm install --global clever-tools
+            sudo npm install --global clever-tools
             clever login --secret=$CLEVER_SECRET --token=$CLEVER_TOKEN
             clever link << parameters.app-id >>
             clever deploy --force
