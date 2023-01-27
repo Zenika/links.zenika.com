@@ -22,6 +22,6 @@
     "helmet": "3.23.3",
     "node-fetch": "2.6.7",
     "redirect-ssl": "1.4.1",
-    "ua-parser-js": "0.7.28"
+    "ua-parser-js": "0.7.33"
   }
 }
