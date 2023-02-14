@@ -15,7 +15,7 @@
     "@auth0/auth0-spa-js": "1.6.5",
     "ra-data-hasura": "0.0.8",
     "react": "16.13.1",
-    "react-admin": "3.8.5",
+    "react-admin": "3.19.12",
     "react-dom": "16.13.1"
   },
   "devDependencies": {
