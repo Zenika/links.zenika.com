@@ -7,10 +7,10 @@
     "hasura": "hasura --project hasura --skip-update-check",
     "hasura:console": "npm run hasura console",
     "hasura:console:delay": "sleep 5 & npm run hasura:console",
-    "hasura:start": "docker-compose up",
+    "hasura:start": "docker compose up",
     "server:dev": "npm --prefix server run dev",
     "web:start": "npm --prefix web start -- --open",
-    "sql": "docker-compose exec postgres psql --user postgres"
+    "sql": "docker compose exec postgres psql --user postgres"
   },
   "devDependencies": {
     "hasura-cli": "2.15.1",
